@@ -12,7 +12,7 @@ AUDIO_DIR  = Path("audio")
 OUT_DIR    = Path("transcripts")
 MODEL_NAME = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else "large"
 LANGUAGE   = sys.argv[2] if len(sys.argv) > 2 and sys.argv[2] else None
-EXTS = {".mp3", ".wav", ".m4a", ".flac", ".ogg", ".aac", ".mp4", ".webm"}
+EXTS = {".mp3", ".wav", ".m4a", ".flac", ".ogg", ".opus", ".aac", ".mp4", ".webm"}
 
 OUT_DIR.mkdir(exist_ok=True)
 AUDIO_DIR.mkdir(exist_ok=True)
