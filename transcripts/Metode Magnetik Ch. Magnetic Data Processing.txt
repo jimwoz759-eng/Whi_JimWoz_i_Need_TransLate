@@ -1,0 +1,476 @@
+Assalamualaikum Wr. Wb.
+Selanjutnya kita akan belajar mengenai pengolahan data geomagnetik.
+Seperti yang sudah saya jelaskan di pertemuan sebelumnya,
+bahwa data yang kita dapatkan dari lapangan itu masih dipengaruhi oleh
+medan magnet bumi yang sangat besar.
+Jadi tidak hanya mengandung data dari anomali bawah permukaan saja.
+Oleh karena itu, yang pertama yang harus dilakukan adalah
+kita harus mereduksi data atau mengoreksi data tersebut.
+Koreksi yang dilakukan ada dua, yaitu ada koreksi diurnal
+atau koreksi medan magnet bumi harian,
+serta koreksi sekular atau koreksi EGRF.
+Saya akan demonstrasikan bagaimana melakukan koreksi tersebut.
+Jadi kita bisa melakukannya dengan menggunakan
+Microsoft Excel biasa atau pengolahan angka lainnya.
+Ini adalah data yang kita miliki, yang terdiri dari XUTM, YUTM,
+kemudian nilai anomal yang sudah dikoreksi harian,
+jadi kebetulan di sini nilainya sudah dikoreksi harian,
+serta nilai EGRF.
+Dari sini kita bisa menghitung nilai total magnetic intensity,
+yaitu nilai yang sudah dikoreksi,
+dikurang dengan koreksi EGRF.
+Koreksi EGRF ini bisa kita dapatkan dari internet,
+di website-nya EGRF dengan memasukkan nilai
+inklinasi dan deklinasi dari tempat pengukuran kita.
+Dari sini kemudian kita mendapatkan amplitude correction inclination
+yang kemudian bisa digunakan untuk melakukan koreksi EGRF tersebut.
+Dari situ kita akan dapat total magnetic intensity,
+yang kemudian bisa digunakan untuk melakukan koreksi EGRF tersebut. Dari situ kita akan dapat total magnetic intensity,
+sesuai dengan rumus yang sudah saya berikan sebelumnya.
+Nah, kemudian kita mencoba untuk memplot datanya.
+Di sini saya menggunakan Oasis Montage,
+tapi sebetulnya bisa pakai apa saja.
+Pertama-tama kita bikin database-nya dulu.
+Saya tidak akan menjelaskan detail penggunaan software-nya seperti biasa,
+karena hanya akan fokus pada langkah-langkah,
+di baliknya saja.
+Kita import Excel yang tadi.
+Kemudian kita akan dapat data-data yang tadi sudah kita miliki yaitu
+x, y, koordinat, serta nilai TMI atau total magnetic intensity-nya.
+TMI adalah nilai anomali dari lapangan kita yang sudah dikurangi oleh
+besar medan magnet bumi.
+Kemudian kita sesuaikan x, y-nya.
+Kita sesuaikan juga sistem koordinatnya.
+Yaitu, kebetulan data ini diukur di zona UTM48S.
+Ini adalah meter.
+Oke, kemudian sebelum kita plot, kita grading dulu.
+Ada berbagai metode grading, banyak yang bisa dipilih.
+Saya akan menggunakan minimum curvature di sini.
+Oke, ini adalah peta dari total magnetic intensity yang kita miliki.
+Proses pengolahan data berikutnya adalah Reduction to Pole atau RTP.
+Pengolahan ini berfungsi untuk
+menghilangkan asimetrisitas dari anomali
+yang diakibatkan oleh
+inklinasi medan magnet bumi di lokasi pengukuran kita.
+Jadi, yang tadinya bentuknya asimetris seperti di gambar sebelah kiri,
+kita mencoba untuk membuatnya simetri selayaknya diukur di kutub.
+Jadi, bentuk anomalinya akan seperti ini.
+Sehingga akan lebih mudah untuk diinterpretasi.
+Operator Reduction to Pole itu seperti yang saya tuliskan di rumus ini.
+Nah, kalau kalian perhatikan, I itu adalah inklinasi, D itu adalah deklinasi.
+Kalau misalnya inklinasinya ini mendekati 0,
+di daerah dimana inklinasinya itu 0,
+maka nilai ini, nilai operatornya akan mendekati tahi-nggak.
+Yang itu tidak masuk akal.
+Tidak masuk akal.
+Ini sulit diimplementasikan untuk daerah-daerah yang memiliki low inclination.
+Dimana inklinasinya itu 0 atau mendekati 0.
+Maka pilihan lainnya adalah kita menggunakan pengalahan lain, yaitu Reduction to Equator.
+Sebetulnya hampir mirip dengan ini,
+hanya saja nanti anomalinya nilainya negatif.
+Tidak seperti ini.
+Tapi tidak masalah.
+Di tempat kita ini, inklinasinya 30,
+jadi saya tetap mau pakai Reduction to Pole.
+Tidak masalah.
+Yang menjadi concern adalah Reduction to Pole ini hanya menghilangkan efek inklinasi
+yang tentu saja mengakibatkan medan magnet induksi.
+Namun, seperti yang sudah kita pelajari sebelumnya,
+bahwa medan magnet yang terukur itu tidak hanya dari medan magnet induksi.
+Ada juga medan magnet remanen.
+Medan magnet remanen.
+Reduction to Pole ini tidak mengindahkan remanen field ini.
+Jadi, kalau kita reduce to pole,
+kalau kita RTP-kan data kita,
+maka anggapannya adalah bahwa remanen field ini nilainya kecil sekali.
+Tapi kalau memang ada remanen field yang besar,
+maka data kita jadi tidak benar.
+Tapi tidak masalah.
+Kita asumsikan bahwa remanen fieldnya itu kecil.
+Implementasinya dalam software OSIS Montage kira-kira seperti ini.
+Kita melakukan RTP terhadap data TMI yang tadi sudah kita plot.
+Kemudian, kita menggunakan fungsi untuk menghitung RTP.
+Jadi, fungsinya belum ada. Kita harus load dulu.
+Fungsi untuk mengolah data magnetik adalah,
+kemudian dia akan muncul di menu bar.
+Setelah itu, kita pilih filtering.
+Data yang mau kita filter adalah data TMI.
+Kemudian, outputnya katakanlah data RTP.
+Kemudian, kita pilih control filternya yaitu rank grid.
+Kita klik OK.
+Kemudian, kita klik OK.
+Kemudian, kita klik OK.
+Kemudian, kita klik OK.
+Kemudian, kita klik OK.
+Kemudian, kita klik OK.
+Ini adalah filter-filter yang bisa kita pilih di OSIS Montage.
+Banyak sekali, tapi tidak semuanya kita gunakan.
+Karena data itu sebetulnya lebih berarti kalau dia asli.
+Tapi kalau dia sudah banyak didandanin, ya bukan dia lagi.
+Untuk menghitung ini, kita butuh nilai inklinasi dan nilai deklinasi.
+Sesuai dengan rumus yang tadi.
+Yang tadi saya berikan.
+Reduce to pole, maka kemudian jika sudah selesai, kita bisa OK saja.
+Dan hasilnya adalah seperti ini.
+Hasilnya adalah seperti ini.
+Reduce to pole, intinya kita menghilangkan efek dipole magnetic.
+Sehingga bentuknya itu lebih mudah diinterpretasi.
+Proses berikutnya...
+Yang bisa kita gunakan adalah upward dan downward continuation.
+Upward dan downward continuation ini...
+Fungsinya untuk memisahkan anomali dangkal dan anomali dalam.
+Secara ide...
+upward continuation...
+Upward Continuation itu idenya adalah mereduksi efek dari sinyal atau data yang panjang gelombangnya pendek.
+Data dengan panjang gelombang pendek ini biasanya datang dari anomali-anomali dangkal yang bukan data yang kita inginkan.
+Misalnya dari besi yang terkubur di dekat permukaan atau dari apa, sampai dia terukur di alat kita.
+Oleh karena itu kita upward continuation agar efek dari short wavelength ini hilang.
+Upward ini gampangnya kita melihat sesuatu lebih dari atas.
+Misalnya kita ada di tanah, di tanah itu kita lihat kaleng, kita lihat di atas tumbukan besi,
+kita lihat misalnya ada batu kecil, ada kaleng.
+Susu dan lain sebagainya.
+Kemudian kita naik ke atas, misalnya naik helikopter ke atas.
+Maka makin lama si kaleng susu dan batu kecil itu tidak akan kelihatan.
+Yang kita lihat hanya si besinya saja.
+Besi besar yang ada di bawah kaleng dan batu tersebut.
+Itu analogi dari upward continuation.
+Kalau downward itu kebalikannya.
+Resolusinya untuk meningkatkan resolusi horizontal dengan
+mengamplifikasi sinyal-sinyal dengan panjang gelombang yang pendek.
+Kalau downward itu justru untuk meng-enrich data agar resolusinya lebih tinggi.
+Jadi fungsinya untuk mencari data yang lebih lokal.
+Kalau UC, upward continuation itu mencari data yang lebih,
+atau mendapatkan gambaran yang lebih regional.
+Saya tidak akan menjelaskan terlalu banyak tentang data ini.
+Saya tidak akan menjelaskan terlalu banyak tentang data ini.
+Saya tidak akan menjelaskan terlalu banyak tentang data ini.
+Saya tidak akan menjelaskan terlalu banyak tentang data ini.
+Karena ini akan dibahas lagi di ADG 2.
+Atau kuliah lain.
+Yang jelas, upward dan downward continuation itu punya operator namanya e plus minus 2 pi lambda z.
+Jadi operator ini merupakan fungsi dari lambda dan z.
+Lambda adalah wavelengthnya.
+Z adalah ketinggian dari continuation kita.
+Bisa kita lihat di gambar sebelah sini.
+Semakin kita mencari data yang lebih tinggi, kita akan mencari data yang lebih tinggi.
+Semakin..
+Semakin pendek wavelengthnya.
+Semakin ke kanan.
+Maka efek kontinuasinya, misalnya Z nya 1.
+Akan semakin besar, semakin pendek.
+Tapi semakin panjang wavelengthnya, efek kontinuasinya semakin kecil.
+Semakin ke kanan, efek kontinuasinya semakin kecil.
+Seperti itu kira-kira.
+Minus ini untuk upward, plus ini untuk downward.
+Minus ini untuk upward, plus ini untuk downward.
+downward
+kalau kalian plot, misalnya kalian mau
+upward 10 kilo
+terus
+kita bisa lihat bahwa
+weflat 10 pangkat 2 itu
+cukup lumayan tereduksi
+seperti itu kira-kira cara menggunakannya
+oke, dalam software
+ini juga sama, kalau software
+kita gak
+terlalu sulit, tinggal
+pilih filternya apa
+data apa yang mau dipilter
+outputnya
+saya mau upward continuation
+setinggi 25 kilometer
+jadi distance to upwardnya
+25, keluarannya adalah
+UC 25
+yang kita output adalah data TMI
+data TMI kita upward
+hasilnya seperti ini
+hasilnya seperti ini terlihat lebih
+lebih regional
+closer-closer kecilnya menjadi hilang
+kalau kalian protikan baik-baik
+nah kemudian
+setelah itu dari
+UC 25 ini
+kemudian
+kita lakukan
+reduce tuple
+kita lakukan reduce tuple dari data yang sudah di
+upward continuation
+nah ini dia
+jadi ini adalah data reduce tuple dari
+hasil upward continuation
+diketinggian 25
+kilometer
+jadi ini adalah data yang sudah kita upload ke Aport Continuation
+di ketinggian 25 kilometer
+kita lihat berbeda sekali ya
+closer-closer kecilnya menjadi hilang
+dan datanya menjadi lebih
+lebih bersih gitu ya
+lebih smooth
+lalu kita harus tahu juga ya
+apa namanya target kita tuh di kedalaman berapa gitu ya
+apakah dalam atau adangkal gitu
+nah dari situ kita bisa menentukan
+ketinggian upward continuation kita tuh berapa harusnya
+jadi upwardnya digunakan kalau misalnya kita
+katakanlah pengukurannya di darat
+tapi kalau kita pengukuran menggunakan
+helikopter gitu ya atau pakai
+satelit maka kita gunakan downward untuk dapat
+data-data yang lebih
+apa namanya tinggi resolusinya
+pengolahan lain yang juga bisa dipilih adalah
+analytic signal
+analytic signal itu adalah
+intinya adalah nilai mutlak dari
+nilai magnetisasi
+atau kalau di dunia
+signal processing itu dikenal dengan envelope
+envelope itu adalah nilai maksimum ya nilai maksima dari
+sebuah sinyal
+jadi maksimanya saja gitu
+nah kenapa ini jadi
+banyak digunakan karena
+analytic signal ini dia independent terhadap
+arah magnetisasi jadi tidak peduli arah
+magnetisasinya dari mana
+gitu ya tidak peduli
+indoklinasi dan lain sebagainya karena
+dia merupakan absolute value yang kalau
+dirumuskan bentuknya seperti ini
+analytic signal adalah akar dari
+gradient magnetisasi pada arah X pada
+arah Y pada arah Z kuadrat
+dari rumusan ini seharusnya si
+analytic signal ini akan mencapai nilai maksimum pada
+kontak kontak lapisan atau kontak batuan
+kalau kita lihat di gambar sebelah kanan
+ya ini ada anomali batuan
+di sebelah kiri sini
+nah nilai nilai analytic signal itu
+maksimal tepat di
+batas antara
+kontras batuan ini antara batuan ini dengan
+lingkungannya
+terlihat seperti itu
+nah
+karena dia tidak apa namanya tidak
+memperhitungkan arahnya dan dan tidak
+ada nilai negatif di sini gitu ya jadi
+nilai analytic signal ini gak ada nilai negatifnya
+semuanya positif gitu karena nilai
+absolute ya nggak penting apakah dia dari
+jadi enggak ada pengaruh dipolnya lagi
+jadi akan lebih mudah juga untuk
+diinterpretasikan sekarang kita coba akan
+menerapkan attendance�en yang
+menggunakan oasis montage
+tinggal pilih filter nya lagi
+ingredient sinyal input kita adalah data
+the
+PMI data totalök anomali
+Oke
+nuestro
+kemudian keluarannya adalah seperti ini
+ini adalah nilai absolut dari total magnetic
+anomali kita, yang pertama kali kita tampilkan
+kalau kita terapkan pada
+data yang lain atau total magnetic anomali yang sudah di upward
+kontinuasi, maka hasilnya menjadi seperti ini
+jadi ada banyak sekali tools untuk pengolahan data
+geomanetik, tinggal yang mana yang mau kita gunakan dan kenapa
+kita mau menggunakan itu, kalau misalnya
+sudah cukup dengan beberapa proses saja
+ya sudah, tapi
+semakin banyak sudut pandang, maka
+semakin enak sebetulnya kita menginterpretasikannya
+analisa berikutnya yang bisa kita lakukan adalah analisa
+derivatif, atau biasa kita gunakan first horizontal
+derivatif dan second vertical derivatif, yang gunanya untuk
+menggambarkan struktur geologi berupa patahannya
+di bawah
+area pengukuran kita
+first horizontal derivatif itu merupakan
+rate of change of magnetic anomali in horizontal direction
+jadi perubahan
+anomali magnetik pada arah horizontal
+FHD ini bisa dalam arah X dan dalam arah Y
+pada arah X, misalnya X itu kita
+misalkan utara selatan gitu ya, jadi perbedaannya
+apa namanya
+rate of change
+anomali magnetik pada arah utara selatan
+seberapa cepat sih
+anomali magnetik itu berubah pada arah X gitu ya
+kemudian bisa juga dilakukan pada arah Y
+pada arah Y artinya seberapa cepat sih
+anomali magnetik itu berubah pada arah Y
+nah
+ini menjadi penting karena perubahan
+cepatnya perubahan
+anomali magnetik itu menunjukkan bahwa
+adanya perbedaan
+sifat kemagnetan batuan di sana
+perbedaan sifat kemagnetan yang
+cepat atau yang tinggi itu menggambarkan
+kontak antara dua litologi yang berbeda
+bisa kita bilang seperti itu
+kalau kita lihat di gambar ini
+kita punya magnetik anomali
+seperti ini
+di bagian di gambar kanan yang atas
+kanan yang atas
+kita punya magnetik anomali bentuknya
+ke atas ke bawah seperti ini masih dipol kemudian
+kita reduce to pol kira-kira bakal jadi
+kita bisa melakukan
+sederhana
+jadi kita bisa menggunakan
+apakah namanya
+pseudo grafitti anomali seperti itu
+nah yang kita lakukan kalau misalnya kita
+menggunakan
+horizontal derivatif adalah
+kita sebaiknya
+mengukur horizontal gradient totalnya
+horizontal gradient ini adalah
+total dari horizontal derivatif pada arah X dan pada arah Y
+FADY kuadrat.
+Untuk anomali seperti ini,
+maka anomali atau kurva horizontal gradient-nya akan seperti yang titik-titik ini.
+Dia akan maksimal di batas bendanya.
+Di batas bendanya dia akan maksimal.
+Sementara kalau tidak ada perbedaan,
+kalau tidak ada perubahan, katakanlah susceptibilitas,
+atau kita bisa bilang litologi,
+maka dia tidak akan, nilainya akan minimum.
+Akan mendekati 0 kalau tidak ada perubahan.
+Itu tadi first horizontal derivative.
+Kalau second vertical derivative itu beda lagi.
+Dia adalah rate of change of vertical gradient.
+Ditekankan di sini bahwa dia adalah rate of change of vertical gradient.
+Jadi bukan sekedar rate of change of vertical anomaly.
+Bukan.
+Tapi vertical gradient.
+Karena dia second derivative.
+Turunan kedua.
+Do kuadrat H per do Z kuadrat.
+Rupanya seperti ini.
+Dan dari persamaan Laplace untuk median potensial,
+kita bisa bilang bahwa do kuadrat H per do Z kuadrat itu sama dengan,
+minus do kuadrat H per do X kuadrat,
+minus do kuadrat H per do Y kuadrat.
+Karena kita tidak punya data Z sebetulnya.
+Respon dari SVD itu akan seperti ini.
+Ini saya ambil dari data gravidi, tapi tidak akan berbeda jauh.
+Dan nantinya data SVD dan FHD ini akan kita gabungkan sehingga kita punya gambaran yang lebih
+komprehensif.
+Karena tidak selalu yang tinggi itu dia batas retologi.
+Tidak selalu seperti itu.
+Kita harus lihat juga SVD-nya.
+Sekarang kita akan coba melakukan analisa derivatif pada data magnetik kita.
+Pertama kita pilih inputnya.
+Inputnya adalah,
+data yang sudah di reduce to pole.
+Oke yang reduce to pole dan sudah di upward juga.
+Pertama-tama kita lakukan turunan pada arah X.
+Turunan pertama pada arah X gitu ya.
+Direction-nya X, order-nya 1.
+Kita kasih nama FHDX.
+Seperti itu.
+Dan hasilnya adalah seperti ini.
+Bisa kita lihat anomalinya itu ketarik ke arah X gitu ya.
+Anomalinya ketarik ke arah utara selatan.
+Oke untuk berikutnya kita hitung turunan pertama pada arah Y.
+Dari data yang sama.
+Oke ini adalah turunan pertama pada arah Y-nya.
+Gambarnya seperti ini.
+Ya terlihat ya lebih jadi pada ketarik-ketarik gitu datanya.
+Kemudian kita gabungkan keduanya sesuai rumus horizontal gradient yang tadi saya berikan.
+Rumusnya adalah akar dari X kuadrat ditambah Y kuadrat.
+Oke.
+Oke.
+Oke.
+Oke.
+Itu X di mana Xnya adalah FHDX.
+Oke.
+Dimana Xnya adalah FHDX.
+Y-nya adalah FHDY.
+Oke saya kira sudah.
+Ini adalah horizontal gradient-nya ya.
+Atau mau dibilang FHD doang juga silakan aja ya.
+Maksudnya sama.
+horizontal gradientnya adalah seperti ini
+kalau kita
+lihat sebetulnya
+ada nilai-nilai yang tinggi
+dan itu akan berkorelasi
+dengan
+kontras antara merah dan biru
+di map yang
+upward continuation 25 itu
+oke sekarang kita lakukan SVD
+turunan pada arah Z
+ordernya 2
+hasilnya SVD adalah
+seperti ini
+nah ini data
+SVD kita
+kalau di SVD
+apa namanya
+sulit ya untuk berbicara sendiri
+dia harus ditemani sama
+eee
+FHD
+kalau begini juga
+agak sulit untuk
+diinterpretasikan makanya biasanya
+kita lebih senang
+itu
+menganalisa SVD dan FHD
+dalam satu dimensi
+ini adalah bentukannya
+ini dari line
+ke
+2
+kalau kita lihat disini
+eee
+yang hijau itu SVD
+yang merah itu FHD ya
+FHD
+eee
+kita
+tertarik untuk mencari
+daerah yang memiliki
+FHD tinggi
+ya
+dan SVD
+mendekati 0
+dan SVD nya 0
+kalau ada
+ada suatu titik
+dimana
+nilai
+SVD nya 0
+dan FHD nya itu maksimal
+maka
+kita bisa menyimpulkan
+atau
+itu bisa menandakan bahwa disitu itu adalah zona
+patahan seperti itu
+setelah analisa-analisa tersebut
+seharusnya kita melakukan
+eee
+pemodelan
+baik inversi maupun forward
+tapi
+tidak akan saya jelaskan
+sekarang mungkin di lain waktu
+untuk pertemuan ini
+sekian
+saya cukupkan
+terima kasih banyak
+assalamualaikum warahmatullahi wabarakatuh
