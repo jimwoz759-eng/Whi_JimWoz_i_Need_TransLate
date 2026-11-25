@@ -1,0 +1,252 @@
+1
+00:00:00,000 --> 00:00:05,120
+So today we're going to cover an important concept for anyone who's getting into drone mapping
+
+2
+00:00:05,120 --> 00:00:13,680
+which is ground sample distance or GSD for short. GSD is a way to define the level of detail in each
+
+3
+00:00:13,680 --> 00:00:19,760
+picture that's taken relative to the ground that you're photographing. It's generally measured in
+
+4
+00:00:19,760 --> 00:00:25,840
+centimeters per pixel but it can be inches per pixel and that's to say that each pixel on a
+
+5
+00:00:25,840 --> 00:00:33,120
+camera sensor, each little dot, relates to a certain amount of area coverage on the ground.
+
+6
+00:00:33,120 --> 00:00:39,680
+For example a GSD of one centimeter per pixel means that each pixel in the photo represents
+
+7
+00:00:39,680 --> 00:00:47,520
+one square centimeter on the ground. One way to think of this is like scale on a map. Like golf
+
+8
+00:00:47,520 --> 00:00:53,920
+a lower score is better so a GSD of one has more detail than a GSD of five.
+
+9
+00:00:55,040 --> 00:00:55,760
+There are three types of GSD. One is the GSD of one, which is the GSD of one, which is the GSD of five.
+
+10
+00:00:55,760 --> 00:00:55,820
+There are three types of GSD. One is the GSD of one, which is the GSD of one, which is the GSD of five.
+
+11
+00:00:55,820 --> 00:00:57,900
+There are three components that define the GSD.
+
+12
+00:00:58,860 --> 00:01:04,700
+Camera resolution. A higher resolution camera has more pixels and so captures more detail,
+
+13
+00:01:04,700 --> 00:01:11,900
+thereby lowering the GSD. The type of lens and its field of view also influences the GSD by affecting
+
+14
+00:01:11,900 --> 00:01:18,380
+how much of the ground area is captured in a single image. A longer lens captures more detail from a
+
+15
+00:01:18,380 --> 00:01:25,740
+higher altitude, whereas a fisheye lens might capture a much wider area. And the altitude of the
+
+16
+00:01:25,740 --> 00:01:32,460
+drone. The lower you fly the more detail will be in your pictures and the lower your GSD score will be.
+
+17
+00:01:33,500 --> 00:01:39,020
+With most drones the sensor size and field of view are fixed which means the only real way to change
+
+18
+00:01:39,020 --> 00:01:47,660
+the GSD is to change the altitude. So if the lower GSD has more detail why not always just fly lower
+
+19
+00:01:47,660 --> 00:01:53,580
+and produce a higher quality image? Well it really depends on your use case. Let's look at what
+
+20
+00:01:53,580 --> 00:01:55,660
+happens when you lower your GSD. The lower the GSD the more detail you have in your pictures.
+
+21
+00:01:55,660 --> 00:01:57,020
+The lower the GSD the more detail you have in your pictures. The lower the GSD the more detail you have in your pictures.
+
+22
+00:01:57,020 --> 00:02:01,500
+Here you can see an image of the drone with an outline showing the area on the ground that will
+
+23
+00:02:01,500 --> 00:02:08,620
+be captured by a Mavic 3 Enterprise at 400 feet. Now let's look at the same thing but with the drone
+
+24
+00:02:08,620 --> 00:02:16,460
+at 50 feet. As you can see we're covering a much smaller area per picture. This means that to
+
+25
+00:02:16,460 --> 00:02:21,980
+complete a map you need to take a lot more pictures. To demonstrate the real world effects
+
+26
+00:02:21,980 --> 00:02:25,420
+I've created a dummy map covering a hundred acres. I've also created a map showing the GSD's altitude.
+
+27
+00:02:25,420 --> 00:02:32,380
+If I fly that at 400 feet using a Mavic 3 Enterprise the drone will travel around 33 mile per hour
+
+28
+00:02:32,380 --> 00:02:39,180
+and take just 10 minutes to complete the project using just under 300 photos. But if I change that
+
+29
+00:02:39,180 --> 00:02:47,340
+to 50 feet the time jumps to almost two hours and the number of photos needed increases to 9,500.
+
+30
+00:02:48,220 --> 00:02:54,460
+There are a couple of reasons for such a big increase. First when you fly lower you need to
+
+31
+00:02:54,460 --> 00:03:02,380
+add more lines to achieve the same overlap as you can see here. Not only that but when you fly lower
+
+32
+00:03:02,380 --> 00:03:08,460
+you increase the risk of motion blur and you'll have to fly slower to reduce the chances of that.
+
+33
+00:03:09,100 --> 00:03:16,380
+In our case the speed drops to just 14 mile per hour. These two factors combine to significantly
+
+34
+00:03:16,380 --> 00:03:22,620
+increase the time on site and the number of photos taken and even after the flight is finished all
+
+35
+00:03:22,620 --> 00:03:24,420
+those extra photos are going to cost you a lot more time than you would have needed to do that.
+
+36
+00:03:24,420 --> 00:03:33,900
+So like most things in life there isn't compromise to be made. Are you looking for the best detail
+
+37
+00:03:33,900 --> 00:03:38,380
+regardless of the time or are you looking to capture something that is good enough?
+
+38
+00:03:39,740 --> 00:03:47,020
+As a general rule for mapping and surveys a low GSD is essential for detailed maps and measurements
+
+39
+00:03:47,020 --> 00:03:54,220
+such as for construction or agriculture. But for more general photography a high GSD might
+
+40
+00:03:54,220 --> 00:03:59,940
+suffice for example if capturing general landscapes or a large area where you're just
+
+41
+00:03:59,940 --> 00:04:05,300
+using it for project planning purposes. I was recently doing some highly detailed mapping of
+
+42
+00:04:05,300 --> 00:04:10,900
+a roof to analyze it for hail damage and in that case we were just 10 feet off the roof
+
+43
+00:04:10,900 --> 00:04:19,300
+and had a GSD of just 0.09 centimeters per pixel. But I also have a regular construction job where
+
+44
+00:04:19,300 --> 00:04:23,540
+the site is 400 acres and we cover that every two weeks. So keeping that in mind I'm going to show you
+
+45
+00:04:23,540 --> 00:04:28,780
+how to do that. So keeping processing of that to a minimum is essential. In that case the client is
+
+46
+00:04:28,780 --> 00:04:35,980
+only looking for general information about the site and so we have a GSD value there of 3.25
+
+47
+00:04:35,980 --> 00:04:42,620
+which significantly reduces the time on site and processing time. How you adjust the GSD really
+
+48
+00:04:42,620 --> 00:04:48,460
+depends a lot on the software you're using. For example Pilot 2 has a GSD field and you can
+
+49
+00:04:48,460 --> 00:04:53,500
+directly enter the number you want and it will figure everything else out for you. Whereas software
+
+50
+00:04:53,540 --> 00:04:58,540
+like DroneLink and DroneDeploy just display a value based on the settings that you've made
+
+51
+00:04:58,540 --> 00:05:04,620
+from the adjustments you put in elsewhere. But that's it really. Consider your client needs,
+
+52
+00:05:04,620 --> 00:05:10,220
+base your GSD on that and you should be good to go. Before we close out I did want to point out
+
+53
+00:05:10,220 --> 00:05:15,900
+that while the G in GSD stands for ground it's really the target distance that's important.
+
+54
+00:05:16,620 --> 00:05:22,380
+Often the ground and the target are the same so it doesn't matter. But this really kicks in when
+
+55
+00:05:22,380 --> 00:05:23,420
+doing things like mapping the ground. So if you're using a GSD for a roof or a roof for a roof,
+
+56
+00:05:23,420 --> 00:05:23,500
+you're going to want to make sure that you're using a GSD for the ground. So if you're using a GSD for a roof or a roof,
+
+57
+00:05:23,500 --> 00:05:24,020
+you're going to want to make sure that you're using a GSD for the ground. So if you're using a GSD for a roof or a roof,
+
+58
+00:05:24,020 --> 00:05:29,060
+where the roof and the ground distance can be quite different. That however is a discussion
+
+59
+00:05:29,060 --> 00:05:34,340
+for a future video where I will be talking about ensuring you have the correct overlaps
+
+60
+00:05:34,340 --> 00:05:39,140
+based on the height of the thing that you're capturing. Anyway that's it for another video.
+
+61
+00:05:39,140 --> 00:05:44,340
+As always I hope you found it useful. Please do like and subscribe as it helps YouTube
+
+62
+00:05:44,340 --> 00:05:53,380
+recommend me to other people and I will see you in the next video.
+
+63
+00:05:53,380 --> 00:05:55,380
+Thanks for watching.
+

@@ -1,0 +1,63 @@
+So today we're going to cover an important concept for anyone who's getting into drone mapping
+which is ground sample distance or GSD for short. GSD is a way to define the level of detail in each
+picture that's taken relative to the ground that you're photographing. It's generally measured in
+centimeters per pixel but it can be inches per pixel and that's to say that each pixel on a
+camera sensor, each little dot, relates to a certain amount of area coverage on the ground.
+For example a GSD of one centimeter per pixel means that each pixel in the photo represents
+one square centimeter on the ground. One way to think of this is like scale on a map. Like golf
+a lower score is better so a GSD of one has more detail than a GSD of five.
+There are three types of GSD. One is the GSD of one, which is the GSD of one, which is the GSD of five.
+There are three types of GSD. One is the GSD of one, which is the GSD of one, which is the GSD of five.
+There are three components that define the GSD.
+Camera resolution. A higher resolution camera has more pixels and so captures more detail,
+thereby lowering the GSD. The type of lens and its field of view also influences the GSD by affecting
+how much of the ground area is captured in a single image. A longer lens captures more detail from a
+higher altitude, whereas a fisheye lens might capture a much wider area. And the altitude of the
+drone. The lower you fly the more detail will be in your pictures and the lower your GSD score will be.
+With most drones the sensor size and field of view are fixed which means the only real way to change
+the GSD is to change the altitude. So if the lower GSD has more detail why not always just fly lower
+and produce a higher quality image? Well it really depends on your use case. Let's look at what
+happens when you lower your GSD. The lower the GSD the more detail you have in your pictures.
+The lower the GSD the more detail you have in your pictures. The lower the GSD the more detail you have in your pictures.
+Here you can see an image of the drone with an outline showing the area on the ground that will
+be captured by a Mavic 3 Enterprise at 400 feet. Now let's look at the same thing but with the drone
+at 50 feet. As you can see we're covering a much smaller area per picture. This means that to
+complete a map you need to take a lot more pictures. To demonstrate the real world effects
+I've created a dummy map covering a hundred acres. I've also created a map showing the GSD's altitude.
+If I fly that at 400 feet using a Mavic 3 Enterprise the drone will travel around 33 mile per hour
+and take just 10 minutes to complete the project using just under 300 photos. But if I change that
+to 50 feet the time jumps to almost two hours and the number of photos needed increases to 9,500.
+There are a couple of reasons for such a big increase. First when you fly lower you need to
+add more lines to achieve the same overlap as you can see here. Not only that but when you fly lower
+you increase the risk of motion blur and you'll have to fly slower to reduce the chances of that.
+In our case the speed drops to just 14 mile per hour. These two factors combine to significantly
+increase the time on site and the number of photos taken and even after the flight is finished all
+those extra photos are going to cost you a lot more time than you would have needed to do that.
+So like most things in life there isn't compromise to be made. Are you looking for the best detail
+regardless of the time or are you looking to capture something that is good enough?
+As a general rule for mapping and surveys a low GSD is essential for detailed maps and measurements
+such as for construction or agriculture. But for more general photography a high GSD might
+suffice for example if capturing general landscapes or a large area where you're just
+using it for project planning purposes. I was recently doing some highly detailed mapping of
+a roof to analyze it for hail damage and in that case we were just 10 feet off the roof
+and had a GSD of just 0.09 centimeters per pixel. But I also have a regular construction job where
+the site is 400 acres and we cover that every two weeks. So keeping that in mind I'm going to show you
+how to do that. So keeping processing of that to a minimum is essential. In that case the client is
+only looking for general information about the site and so we have a GSD value there of 3.25
+which significantly reduces the time on site and processing time. How you adjust the GSD really
+depends a lot on the software you're using. For example Pilot 2 has a GSD field and you can
+directly enter the number you want and it will figure everything else out for you. Whereas software
+like DroneLink and DroneDeploy just display a value based on the settings that you've made
+from the adjustments you put in elsewhere. But that's it really. Consider your client needs,
+base your GSD on that and you should be good to go. Before we close out I did want to point out
+that while the G in GSD stands for ground it's really the target distance that's important.
+Often the ground and the target are the same so it doesn't matter. But this really kicks in when
+doing things like mapping the ground. So if you're using a GSD for a roof or a roof for a roof,
+you're going to want to make sure that you're using a GSD for the ground. So if you're using a GSD for a roof or a roof,
+you're going to want to make sure that you're using a GSD for the ground. So if you're using a GSD for a roof or a roof,
+where the roof and the ground distance can be quite different. That however is a discussion
+for a future video where I will be talking about ensuring you have the correct overlaps
+based on the height of the thing that you're capturing. Anyway that's it for another video.
+As always I hope you found it useful. Please do like and subscribe as it helps YouTube
+recommend me to other people and I will see you in the next video.
+Thanks for watching.
