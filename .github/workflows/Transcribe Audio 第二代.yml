@@ -1,4 +1,4 @@
-name: Transcribe Audio
+name: Transcribe Audio 第二代
 
 on:
   push:
