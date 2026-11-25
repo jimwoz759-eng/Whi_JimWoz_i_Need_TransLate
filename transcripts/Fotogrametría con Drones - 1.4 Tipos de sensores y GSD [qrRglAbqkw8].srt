@@ -1,0 +1,532 @@
+1
+00:00:00,000 --> 00:00:09,120
+Sensor CMOS y sensor CCD
+
+2
+00:00:09,120 --> 00:00:14,160
+Estos dos tipos de sensores son los más comercializados a nivel mundial.
+
+3
+00:00:15,620 --> 00:00:17,100
+¿Pero qué es el sensor?
+
+4
+00:00:17,840 --> 00:00:21,180
+El sensor es el elemento más importante de la cámara,
+
+5
+00:00:22,080 --> 00:00:28,440
+ya que este es el encargado de transformar la luz natural recibida en señales eléctricas
+
+6
+00:00:28,440 --> 00:00:33,780
+y la calidad de la imagen va a depender en gran medida de este proceso.
+
+7
+00:00:36,160 --> 00:00:37,760
+Sensor CMOS
+
+8
+00:00:37,760 --> 00:00:42,440
+Significa Semiconductor Complementario de Óxido Metálico.
+
+9
+00:00:43,540 --> 00:00:47,720
+Hoy en la actualidad el uso de este sensor se ha extendido en el mundo,
+
+10
+00:00:48,280 --> 00:00:52,920
+debido a que su fabricación es más sencilla, por lo tanto más económico.
+
+11
+00:00:53,740 --> 00:00:55,140
+Tiene las siguientes ventajas.
+
+12
+00:00:56,140 --> 00:00:58,420
+Un menor consumo de energía.
+
+13
+00:00:58,440 --> 00:01:01,840
+Una previsualización más rápida.
+
+14
+00:01:02,860 --> 00:01:04,960
+Tiene una alta frecuencia de imagen.
+
+15
+00:01:05,780 --> 00:01:09,820
+En su contra destaca mayor ruido frente al CCD.
+
+16
+00:01:10,580 --> 00:01:15,440
+Y lo más importante, puede presentar distorsión de imagen cuando se presenta movimiento,
+
+17
+00:01:16,620 --> 00:01:19,060
+debido a que no cuenta con obturador global.
+
+18
+00:01:22,280 --> 00:01:23,440
+Sensor CCD
+
+19
+00:01:24,080 --> 00:01:27,520
+Significa Dispositivo de Carga Acoplada.
+
+20
+00:01:28,440 --> 00:01:31,360
+Tiene su mayor complejidad de funcionamiento y fabricación.
+
+21
+00:01:31,360 --> 00:01:33,360
+Tiene las siguientes ventajas.
+
+22
+00:01:33,360 --> 00:01:35,360
+Posee una gran calidad de imagen.
+
+23
+00:01:35,360 --> 00:01:37,360
+Presenta un mayor rango dinámico.
+
+24
+00:01:37,360 --> 00:01:39,360
+Presenta poco ruido.
+
+25
+00:01:39,360 --> 00:01:45,360
+Y tiene una captura completa de la imagen, ya que cuenta con un obturador global.
+
+26
+00:01:45,360 --> 00:01:49,360
+El tipo de obturador de la cámara utilizada para adquirir imágenes,
+
+27
+00:01:49,360 --> 00:01:53,360
+puede influir en los resultados producidos por el software de fotogrametría.
+
+28
+00:01:53,360 --> 00:01:55,360
+Por ello es necesario utilizar el software de fotogrametría.
+
+29
+00:01:55,360 --> 00:01:56,900
+El software de fotogrametría es el que más se utiliza para obtener imágenes.
+
+30
+00:01:56,900 --> 00:01:58,100
+El software de fotogrametría es el que más se utiliza para obtener imágenes.
+
+31
+00:01:58,100 --> 00:01:58,200
+El software de fotogrametría es el que más se utiliza para obtener imágenes.
+
+32
+00:01:58,200 --> 00:02:01,060
+Es necesario tomar las medidas respectivas.
+
+33
+00:02:01,060 --> 00:02:06,100
+Los principales fabricantes en el mercado de r-pass, DJI, por ejemplo,
+
+34
+00:02:06,100 --> 00:02:10,100
+tienen un sensor con obturador lineal Rolling Shutter.
+
+35
+00:02:10,100 --> 00:02:15,100
+La facilidad de uso y el precio razonable de estos equipos y cámaras
+
+36
+00:02:15,100 --> 00:02:19,100
+permiten que más y más personas los utilicen para el trabajo de mapeo.
+
+37
+00:02:19,100 --> 00:02:21,100
+que más y más personas los utilicen para el trabajo de mapeo.
+
+38
+00:02:21,100 --> 00:02:25,100
+Veamos lo que nos menciona Soporte Técnico de Pix4D.
+
+39
+00:02:25,100 --> 00:02:26,100
+Veamos lo que nos menciona Soporte Técnico de Pix4D.
+
+40
+00:02:28,100 --> 00:02:34,540
+Mientras que un sensor global captura la imagen en una sola pasada de manera global en un instante,
+
+41
+00:02:35,540 --> 00:02:43,480
+el sensor lineal captura la imagen en varias pasadas de manera lineal y se puede producir el efecto de persiana enrollable.
+
+42
+00:02:46,740 --> 00:02:53,600
+Equipos como los de aquí, Phantom 3, Phantom 4, Inspire 1 pueden sufrir este efecto.
+
+43
+00:02:54,580 --> 00:02:56,220
+También las cámaras GoPro.
+
+44
+00:02:56,220 --> 00:03:02,920
+Este efecto se pronuncia sobre todo cuando la plataforma está en movimiento,
+
+45
+00:03:03,260 --> 00:03:10,440
+por lo que recomendamos al volar con este tipo de equipos llegar máximo a velocidades de 8 metros por segundo.
+
+46
+00:03:12,600 --> 00:03:15,420
+GSD y altura de vuelo
+
+47
+00:03:15,420 --> 00:03:21,380
+GSD de las siglas Ground Sampling Distance
+
+48
+00:03:22,320 --> 00:03:25,780
+El GSD viene a ser la resolución espacial.
+
+49
+00:03:26,220 --> 00:03:33,640
+Representa la distancia de remuestreo sobre el terreno.
+
+50
+00:03:34,720 --> 00:03:42,400
+Se puede relacionar también como la longitud del terreno cuya imagen es recogida por la anchura de un pixel sensor,
+
+51
+00:03:43,600 --> 00:03:46,560
+que significa huella del pixel sobre el terreno.
+
+52
+00:03:47,560 --> 00:03:53,700
+El valor del GSD viene influenciado directamente por la altura de vuelo del RPAS,
+
+53
+00:03:54,380 --> 00:03:56,200
+resolución de la cámara,
+
+54
+00:03:56,220 --> 00:03:59,220
+y en menor medida de la distancia focal.
+
+55
+00:04:01,220 --> 00:04:03,220
+Veamos el siguiente esquema.
+
+56
+00:04:04,220 --> 00:04:06,220
+Se tiene el sensor y sus elementos.
+
+57
+00:04:09,220 --> 00:04:12,220
+El plano del sensor y la distancia focal.
+
+58
+00:04:12,220 --> 00:04:16,220
+Y el punto que viene a ser el centro de proyección.
+
+59
+00:04:16,220 --> 00:04:22,220
+Se realiza la toma y proyectamos la distancia de remuestreo sobre el terreno.
+
+60
+00:04:24,220 --> 00:04:26,220
+El valor del GSD es la longitud del terreno.
+
+61
+00:04:26,220 --> 00:04:31,220
+Cuya imagen es recogida por la anchura de un pixel sensor.
+
+62
+00:04:33,220 --> 00:04:37,220
+El GSD es representado en centímetros por pixel.
+
+63
+00:04:38,220 --> 00:04:43,220
+En el siguiente esquema tenemos el sensor a una determinada altura de vuelo.
+
+64
+00:04:44,220 --> 00:04:50,220
+A la derecha tenemos el mismo sensor, pero a una mayor altura de vuelo.
+
+65
+00:04:51,220 --> 00:04:55,220
+Por lo cual se proyectará una mayor distancia de remuestreo.
+
+66
+00:04:56,220 --> 00:04:59,220
+Mientras que en la izquierda era de X,
+
+67
+00:04:59,220 --> 00:05:03,220
+en la derecha será de X más un valor determinado.
+
+68
+00:05:03,220 --> 00:05:09,220
+Entonces, a mayor altura de vuelo tendremos una mayor distancia de remuestreo sobre el terreno.
+
+69
+00:05:09,220 --> 00:05:12,220
+Pero se perderá detalle.
+
+70
+00:05:14,220 --> 00:05:17,220
+Tenemos una imagen tomada a 30 metros de altura.
+
+71
+00:05:18,220 --> 00:05:22,220
+Aún podemos observar la marca y distinguir el centro de ella.
+
+72
+00:05:22,220 --> 00:05:26,220
+La misma zona tomada a una altura de 60 metros.
+
+73
+00:05:26,220 --> 00:05:33,220
+Aún podemos distinguir la marca y el centro se nos hace un poco difícil de determinar.
+
+74
+00:05:33,220 --> 00:05:38,220
+Y tenemos la misma zona tomada a 90 metros de altura.
+
+75
+00:05:39,220 --> 00:05:46,220
+Aún podemos observar la marca, pero el centro se torna un poco más complicado e impreciso de identificar.
+
+76
+00:05:46,220 --> 00:05:51,220
+Por lo cual, en una fotografía tomada a mayor altura, se pierde detalle.
+
+77
+00:05:52,220 --> 00:05:57,220
+Pero un beneficio es que abarcará mayor terreno.
+
+78
+00:06:00,220 --> 00:06:03,220
+Determinación del GSD
+
+79
+00:06:05,220 --> 00:06:12,220
+¿Cómo determinamos el valor del GSD en función a los parámetros de la cámara y una altura de vuelo específica?
+
+80
+00:06:12,220 --> 00:06:14,220
+Es lo que nos podemos preguntar.
+
+81
+00:06:14,220 --> 00:06:18,220
+Tenemos aquí la fórmula general de altura de vuelo.
+
+82
+00:06:18,220 --> 00:06:21,220
+Y despejando tenemos el valor del GSD.
+
+83
+00:06:21,220 --> 00:06:31,220
+Y está en función a la altura de vuelo, anchura del sensor, resolución del sensor horizontal y la distancia focal.
+
+84
+00:06:32,220 --> 00:06:38,220
+Vamos a determinar el valor del GSD para una altura de vuelo de 60 metros.
+
+85
+00:06:38,220 --> 00:06:41,220
+Utilizando el RPAS Phantom 4.
+
+86
+00:06:42,220 --> 00:06:43,220
+Nuestras variables serían.
+
+87
+00:06:43,220 --> 00:06:45,220
+H igual a 60
+
+88
+00:06:46,220 --> 00:06:50,220
+Anchura de sensor igual a 6.3 milímetros
+
+89
+00:06:51,220 --> 00:06:54,220
+Resolución horizontal 4000 píxeles
+
+90
+00:06:54,220 --> 00:06:58,220
+Distancia focal igual a 3.7 milímetros
+
+91
+00:07:00,220 --> 00:07:08,220
+Resolviendo la ecuación, tenemos que el valor del GSD es de 24.461 milímetros por píxel.
+
+92
+00:07:09,220 --> 00:07:14,220
+De manera convencional, el valor del GSD se expresa en centímetros por píxel.
+
+93
+00:07:14,220 --> 00:07:20,220
+Por lo tanto, para una altura de 60 metros utilizando el Phantom 4.
+
+94
+00:07:20,220 --> 00:07:25,220
+Tenemos un GSD promedio de 2.5 centímetros por píxel.
+
+95
+00:07:26,220 --> 00:07:31,220
+Vamos a determinar el valor del GSD para una altura de 60 metros.
+
+96
+00:07:32,220 --> 00:07:36,220
+Utilizando esta vez el RPAS Phantom 4 Pro.
+
+97
+00:07:37,220 --> 00:07:39,220
+Nuestras variables son.
+
+98
+00:07:40,220 --> 00:07:42,220
+Altura de vuelo igual a 60 metros.
+
+99
+00:07:43,220 --> 00:07:47,220
+Anchura del sensor 11.4 milímetros.
+
+100
+00:07:47,220 --> 00:07:52,220
+Resolución horizontal 4864 píxeles.
+
+101
+00:07:53,220 --> 00:07:56,220
+Distancia focal 8.6 milímetros.
+
+102
+00:07:57,220 --> 00:08:06,220
+Resolviendo la ecuación, tenemos que el GSD es igual a 16.447 milímetros por píxel.
+
+103
+00:08:07,220 --> 00:08:13,220
+De manera convencional, el valor del GSD se expresa en centímetros por píxel como lo hemos mencionado.
+
+104
+00:08:14,220 --> 00:08:16,220
+Por lo tanto, para una altura de 60 metros.
+
+105
+00:08:17,220 --> 00:08:19,220
+Utilizando el Phantom 4 Pro.
+
+106
+00:08:20,220 --> 00:08:25,220
+Tendremos un GSD promedio de 1.64 centímetros por píxel.
+
+107
+00:08:26,220 --> 00:08:31,220
+En la imagen de la izquierda tenemos un mosaico de 17 centímetros por píxel.
+
+108
+00:08:32,220 --> 00:08:36,220
+Y a la derecha tenemos el mosaico a 10 centímetros por píxel.
+
+109
+00:08:37,220 --> 00:08:39,220
+Ambos de la misma zona de estudio.
+
+110
+00:08:40,220 --> 00:08:43,220
+En el mosaico de la izquierda no podemos distinguir algunos detalles.
+
+111
+00:08:43,220 --> 00:08:49,220
+Se genera una degradación de la resolución o también llamado pixelación.
+
+112
+00:08:50,220 --> 00:08:54,220
+Esto es porque un píxel está abarcando mayor porción de terreno.
+
+113
+00:08:55,220 --> 00:08:59,220
+Por ende, no podemos identificar detalles más pequeños a esa dimensión.
+
+114
+00:09:00,220 --> 00:09:06,220
+En el ortomosaico de la derecha aún podemos identificar detalles más pequeños.
+
+115
+00:09:07,220 --> 00:09:10,220
+Ya que el mismo píxel está abarcando menor porción del terreno.
+
+116
+00:09:10,220 --> 00:09:21,220
+Por ejemplo, para GSD de 10 centímetros podemos exportar productos de escala cartográfica 1 al 1000.
+
+117
+00:09:22,220 --> 00:09:25,220
+De 15 centímetros 1 a 2500.
+
+118
+00:09:26,220 --> 00:09:30,220
+25 centímetros para una escala 1 a 5000.
+
+119
+00:09:31,220 --> 00:09:35,220
+Y de 50 centímetros hasta escala 1 a 10000.
+
+120
+00:09:37,220 --> 00:09:39,220
+De todas las características que pueden tener
+
+121
+00:09:40,220 --> 00:09:46,220
+una cámara digital aérea, a nosotros nos interesa conocer las más relevantes para fotogrametría.
+
+122
+00:09:47,220 --> 00:09:52,220
+Por ello, hemos armado este cuadro con distintas características de diferentes cámaras.
+
+123
+00:09:53,220 --> 00:09:55,220
+Por ejemplo, cámara del Phantom 4.
+
+124
+00:09:56,220 --> 00:09:58,220
+La cámara del Phantom 4 Pro.
+
+125
+00:09:59,220 --> 00:10:01,220
+La cámara del DJI Inspire 2.
+
+126
+00:10:02,220 --> 00:10:07,220
+Y la de uno de ala fija, en este caso un IDI con cámara Sony.
+
+127
+00:10:07,220 --> 00:10:10,220
+Los parámetros que destacamos son los siguientes.
+
+128
+00:10:11,220 --> 00:10:13,220
+La anchura del sensor expresada en milímetros.
+
+129
+00:10:14,220 --> 00:10:17,220
+La distancia focal expresada de igual manera en milímetros.
+
+130
+00:10:18,220 --> 00:10:22,220
+La resolución de la cámara, pero la resolución horizontal.
+
+131
+00:10:23,220 --> 00:10:31,220
+Por ejemplo, podemos observar que el que presenta mayor resolución horizontal frente a los demás es la del Inspire 2.
+
+132
+00:10:32,220 --> 00:10:36,220
+Con una resolución en total de 5472 píxeles.
+
+133
+00:10:37,220 --> 00:10:40,220
+Continuaremos en el siguiente video.
+
