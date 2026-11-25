@@ -1,0 +1,109 @@
+name: Transcribe Audio
+
+on:
+  push:
+    paths:
+      - "audio/**"
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Whisper 模型 (tiny/base/small/medium/large/turbo)"
+        default: "large"
+      language:
+        description: "语言代码，如 zh、en、ja；留空自动检测"
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: transcribe-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      MODEL:    ${{ github.event.inputs.model    || 'large' }}
+      LANGUAGE: ${{ github.event.inputs.language || ''      }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: 安装 ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: 安装 CPU 版 PyTorch 和 openai-whisper
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt
+
+      - name: 缓存 Whisper 模型（约 3GB）
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/whisper
+          key: whisper-${{ env.MODEL }}
+
+      - name: 开始转写
+        id: transcribe
+        timeout-minutes: 330
+        run: python transcribe.py "$MODEL" "$LANGUAGE"
+
+      - name: 收集本次新增的音频和转写结果
+        id: collect
+        if: always()
+        run: |
+          mkdir -p release_files
+          git ls-files -mo --exclude-standard transcripts/ | while IFS= read -r t; do
+            cp "$t" release_files/
+            rel="${t#transcripts/}"
+            dir="$(dirname "$rel")"
+            stem="$(basename "${t%.*}")"
+            for a in "audio/$dir"/*; do
+              [ -f "$a" ] || continue
+              b="$(basename "$a")"
+              if [ "${b%.*}" = "$stem" ]; then
+                cp "$a" release_files/
+              fi
+            done
+          done
+          if [ -n "$(ls -A release_files)" ]; then
+            echo "has_files=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 发布 Release
+        id: release
+        if: always() && steps.collect.outputs.has_files == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "transcribe-${{ github.run_number }}" release_files/* \
+            --title "Transcripts #${{ github.run_number }}" \
+            --notes "模型：${MODEL} | 语言：${LANGUAGE:-自动检测} | 触发：${{ github.event_name }}"
+
+      - name: 上传结果为 Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transcripts
+          path: release_files/
+          if-no-files-found: ignore
+
+      - name: 清空仓库中的音频和转写结果
+        if: always() && steps.transcribe.outcome == 'success' && steps.release.outcome == 'success'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git rm -r -q --ignore-unmatch audio transcripts
+          rm -rf audio transcripts
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: clean audio and transcripts after release"
+            git pull --rebase
+            git push
+          fi
