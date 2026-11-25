@@ -1,0 +1,75 @@
+name: Transcribe Audio
+
+on:
+  push:
+    paths:
+      - "audio/**"
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Whisper 模型 (tiny/base/small/medium/large/turbo)"
+        default: "large"
+      language:
+        description: "语言代码，如 zh、en、ja；留空自动检测"
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: transcribe-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      MODEL:    ${{ github.event.inputs.model    || 'large' }}
+      LANGUAGE: ${{ github.event.inputs.language || ''      }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: 安装 ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: 安装 CPU 版 PyTorch 和 openai-whisper
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt
+
+      - name: 缓存 Whisper 模型（约 3GB）
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/whisper
+          key: whisper-${{ env.MODEL }}
+
+      - name: 开始转写
+        timeout-minutes: 330
+        run: python transcribe.py "$MODEL" "$LANGUAGE"
+
+      - name: 提交结果回仓库
+        if: always()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add transcripts/
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: add transcripts"
+            git pull --rebase
+            git push
+          fi
+
+      - name: 上传结果为 Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transcripts
+          path: transcripts/
+          if-no-files-found: ignore
