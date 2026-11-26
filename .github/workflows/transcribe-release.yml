@@ -1,0 +1,179 @@
+name: Transcribe Audio (Release)
+
+on:
+  push:
+    paths:
+      - "audio/**"
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Whisper 模型 (tiny/base/small/medium/large/turbo)"
+        default: "large"
+      language:
+        description: "语言代码，如 zh、en、ja；留空自动检测"
+        default: ""
+
+permissions:
+  contents: write
+
+# 与 transcribe.yml 使用不同的 group，互不顶替
+concurrency:
+  group: transcribe-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360   # GitHub 托管 runner 的硬上限
+    env:
+      MODEL:    ${{ github.event.inputs.model    || 'large' }}
+      LANGUAGE: ${{ github.event.inputs.language || ''      }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true            # 否则 Git LFS 的大音频只是指针文件
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: 安装 ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+
+      - name: 安装 CPU 版 PyTorch 和 openai-whisper
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt
+
+      # actions/cache 只在“整个 job 成功”时才保存；超时/失败会丢掉已下载的 3GB 模型。
+      # 拆成 restore + save，并让 save 在 always() 下执行。
+      - name: 恢复 Whisper 模型缓存
+        id: model-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.cache/whisper
+          key: whisper-${{ env.MODEL }}
+
+      - name: 开始转写
+        id: transcribe
+        timeout-minutes: 335   # 留约 25 分钟给 安装 + 收集 + 发布 + 清理
+        run: python -u transcribe.py "$MODEL" "$LANGUAGE"
+
+      - name: 检查模型文件是否存在
+        id: model-file
+        if: always()
+        run: |
+          if ls ~/.cache/whisper/*.pt >/dev/null 2>&1; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 保存 Whisper 模型缓存
+        if: always() && steps.model-file.outputs.found == 'true' && steps.model-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.cache/whisper
+          key: whisper-${{ env.MODEL }}
+
+      - name: 收集本次新增的音频和转写结果（每个音频单独打一个 zip）
+        id: collect
+        if: always()
+        run: |
+          mkdir -p release_files "$RUNNER_TEMP/assets"
+          : > "$RUNNER_TEMP/released_audio.list"
+          : > "$RUNNER_TEMP/released_transcripts.list"
+          : > "$RUNNER_TEMP/assets/MANIFEST.txt"
+          declare -A seen
+          n=0
+
+          # -z + quotepath=false：否则中文/空格文件名会被转成 "\344\274..." 带引号字符串，cp/zip 找不到文件
+          while IFS= read -r -d '' t; do
+            case "$t" in *.txt|*.srt) ;; *) continue ;; esac     # 跳过 .gitkeep 等
+            rel="${t#transcripts/}"
+            dir="$(dirname "$rel")"
+            stem="$(basename "${t%.*}")"
+            key="$dir/$stem"
+            [ -n "${seen[$key]:-}" ] && continue                 # txt 和 srt 只处理一次
+            seen[$key]=1
+
+            if [ "$dir" = "." ]; then tdir="transcripts"; adir="audio"
+            else tdir="transcripts/$dir"; adir="audio/$dir"; fi
+
+            files=()
+            for ext in txt srt; do
+              [ -f "$tdir/$stem.$ext" ] && files+=("$tdir/$stem.$ext")
+            done
+            for a in "$adir"/*; do
+              [ -f "$a" ] || continue
+              b="$(basename "$a")"
+              [ "${b%.*}" = "$stem" ] && files+=("$a")
+            done
+
+            n=$((n+1))
+            zip_name="$(printf 'transcripts-run-%s-%s-%03d.zip' "$GITHUB_RUN_NUMBER" "$GITHUB_RUN_ATTEMPT" "$n")"
+            zip -q -X "$RUNNER_TEMP/assets/$zip_name" "${files[@]}"
+
+            # Release 单文件必须 < 2 GiB；超过就不发布、也不清理，保留在仓库里
+            sz="$(stat -c %s "$RUNNER_TEMP/assets/$zip_name")"
+            if [ "$sz" -ge 2000000000 ]; then
+              echo "::warning::$key 打包后 ${sz} 字节，超过 Release 单文件上限，已跳过（文件保留在仓库中）"
+              rm -f "$RUNNER_TEMP/assets/$zip_name"
+              continue
+            fi
+
+            cp --parents "${files[@]}" release_files/            # Artifact 用，保留目录结构
+            printf '%s\t%s\n' "$zip_name" "${key#./}" >> "$RUNNER_TEMP/assets/MANIFEST.txt"
+            for f in "${files[@]}"; do
+              case "$f" in
+                audio/*)       printf '%s\0' "$f" >> "$RUNNER_TEMP/released_audio.list" ;;
+                transcripts/*) printf '%s\0' "$f" >> "$RUNNER_TEMP/released_transcripts.list" ;;
+              esac
+            done
+          done < <(git -c core.quotepath=false ls-files -z -mo --exclude-standard transcripts/)
+
+          if compgen -G "$RUNNER_TEMP/assets/*.zip" > /dev/null; then
+            echo "has_files=true"                 >> "$GITHUB_OUTPUT"
+            echo "assets_dir=$RUNNER_TEMP/assets" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 发布 Release
+        id: release
+        if: always() && steps.collect.outputs.has_files == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ASSETS_DIR: ${{ steps.collect.outputs.assets_dir }}
+        run: |
+          # tag 带 run_attempt：Re-run 时 run_number 不变，否则 tag 已存在会失败
+          # MANIFEST.txt 记录“zip 文件名 ↔ 原始中文文件名”的对应关系
+          gh release create "transcribe-${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}" \
+            "$ASSETS_DIR"/*.zip "$ASSETS_DIR/MANIFEST.txt" \
+            --target "$GITHUB_SHA" \
+            --title "Transcripts #${GITHUB_RUN_NUMBER}" \
+            --notes "模型：${MODEL} | 语言：${LANGUAGE:-自动检测} | 触发：${GITHUB_EVENT_NAME}"
+
+      - name: 上传结果为 Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transcripts
+          path: release_files/
+          if-no-files-found: ignore
+
+      # 只删除“已经发布到 Release 的那些”文件，保留 .gitkeep；
+      # 部分失败/超时时，已完成的文件照样清理，剩下的下次 push 继续转写（真正的断点续传）。
+      - name: 清理已发布的音频和转写结果
+        if: always() && steps.release.outcome == 'success'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for l in released_audio released_transcripts; do
+            if [ -s "$RUNNER_TEMP/$l.list" ]; then
+              xargs -0 -r git rm -q -f --ignore-unmatch -- < "$RUNNER_TEMP/$l.list"
+            fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: remove released audio and transcripts"
+            git pull --rebase
+            git push
+          fi
