@@ -1,9 +1,9 @@
-name: Transcribe Audio
+name: Transcribe Audio (Commit)
 
+# 与 transcribe-release.yml 两者都监听 push 会让同一批音频被转写两次（每次最长 6 小时）。
+# 这里改成仅手动触发；如果你想用“提交回仓库”模式代替 Release 模式，
+# 请把本文件加上 push 触发，并删除/禁用 transcribe-release.yml。
 on:
-  push:
-    paths:
-      - "audio/**"
   workflow_dispatch:
     inputs:
       model:
@@ -17,19 +17,21 @@ permissions:
   contents: write
 
 concurrency:
-  group: transcribe-${{ github.ref }}
+  group: transcribe-commit-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   transcribe:
     runs-on: ubuntu-latest
-    timeout-minutes: 350
+    timeout-minutes: 360   # GitHub 托管 runner 的硬上限
     env:
       MODEL:    ${{ github.event.inputs.model    || 'large' }}
       LANGUAGE: ${{ github.event.inputs.language || ''      }}
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true
 
       - uses: actions/setup-python@v5
         with:
@@ -37,22 +39,38 @@ jobs:
           cache: pip
 
       - name: 安装 ffmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
 
       - name: 安装 CPU 版 PyTorch 和 openai-whisper
         run: |
           pip install torch --index-url https://download.pytorch.org/whl/cpu
           pip install -r requirements.txt
 
-      - name: 缓存 Whisper 模型（约 3GB）
-        uses: actions/cache@v4
+      - name: 恢复 Whisper 模型缓存
+        id: model-cache
+        uses: actions/cache/restore@v4
         with:
           path: ~/.cache/whisper
           key: whisper-${{ env.MODEL }}
 
       - name: 开始转写
-        timeout-minutes: 330
-        run: python transcribe.py "$MODEL" "$LANGUAGE"
+        timeout-minutes: 335
+        run: python -u transcribe.py "$MODEL" "$LANGUAGE"
+
+      - name: 检查模型文件是否存在
+        id: model-file
+        if: always()
+        run: |
+          if ls ~/.cache/whisper/*.pt >/dev/null 2>&1; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 保存 Whisper 模型缓存
+        if: always() && steps.model-file.outputs.found == 'true' && steps.model-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.cache/whisper
+          key: whisper-${{ env.MODEL }}
 
       - name: 提交结果回仓库
         if: always()
@@ -70,6 +88,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: transcripts
+          name: transcripts-commit
           path: transcripts/
           if-no-files-found: ignore
