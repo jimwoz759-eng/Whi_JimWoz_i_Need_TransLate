@@ -6,6 +6,10 @@ import torch
 import whisper
 from whisper.utils import get_writer
 
+# 管道输出时也逐行刷新，CI 日志才能实时看到进度
+sys.stdout.reconfigure(line_buffering=True)
+sys.stderr.reconfigure(line_buffering=True)
+
 torch.set_num_threads(os.cpu_count() or 4)
 
 AUDIO_DIR  = Path("audio")
@@ -27,7 +31,25 @@ def is_done(f: Path) -> bool:
     return (d / f"{f.stem}.txt").exists() and (d / f"{f.stem}.srt").exists()
 
 
-files   = [p for p in sorted(AUDIO_DIR.rglob("*")) if p.suffix.lower() in EXTS]
+def is_lfs_pointer(f: Path) -> bool:
+    """checkout 没开 lfs 时，大文件只是一个几百字节的指针文本。"""
+    try:
+        return f.stat().st_size < 1024 and f.read_bytes().startswith(b"version https://git-lfs")
+    except OSError:
+        return False
+
+
+# 加 is_file()：避免名为 "xxx.mp3" 的目录被当成音频
+files = [p for p in sorted(AUDIO_DIR.rglob("*")) if p.is_file() and p.suffix.lower() in EXTS]
+
+# 同目录同主文件名（a.mp3 与 a.wav）会写成同一个 a.txt/a.srt，互相覆盖
+_seen = {}
+for p in files:
+    _seen.setdefault((p.parent, p.stem), []).append(p.name)
+for (_, stem), names in _seen.items():
+    if len(names) > 1:
+        print(f"[警告] 主文件名冲突，输出会互相覆盖：{names}，请改名", file=sys.stderr)
+
 pending = [f for f in files if not is_done(f)]
 
 if not pending:
@@ -40,8 +62,10 @@ model = whisper.load_model(MODEL_NAME)
 
 failed = []
 for f in pending:
-    print(f"\n===== 转写中：{f} =====", flush=True)
+    print(f"\n===== 转写中：{f} =====")
     try:
+        if is_lfs_pointer(f):
+            raise RuntimeError("这是 Git LFS 指针文件，不是真实音频（checkout 需要 lfs: true）")
         opts = {"fp16": False, "verbose": True}
         if LANGUAGE:
             opts["language"] = LANGUAGE
@@ -52,9 +76,9 @@ for f in pending:
         d.mkdir(parents=True, exist_ok=True)
         for fmt in ("srt", "txt"):
             get_writer(fmt, str(d))(result, f.name, {})
-        print(f"完成：{f.name}", flush=True)
+        print(f"完成：{f.name}")
     except Exception as e:
-        print(f"[错误] {f}：{e}", file=sys.stderr, flush=True)
+        print(f"[错误] {f}：{e}", file=sys.stderr)
         failed.append(str(f))
 
 if failed:
